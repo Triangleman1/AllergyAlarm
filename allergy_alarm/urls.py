@@ -17,10 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from django.conf.urls.static import static
+from django.conf import settings
 from allergy_alarm_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('home/', include("allergy_alarm_app.urls"))
     path("", views.home, name="home")
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
