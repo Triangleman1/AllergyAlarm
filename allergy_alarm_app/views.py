@@ -37,7 +37,7 @@ def excel_to_chart(request):
     ax.plot(dates, values, marker='o', linestyle='-', color='b')
 
     ax.set(xlabel='Date', ylabel='Value',
-           title='Excel Data Chart')
+           title='Example Data Visualization')
 
     # Generate the plot and send as response
     response = HttpResponse(content_type='image/png')
