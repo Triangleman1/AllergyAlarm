@@ -24,5 +24,6 @@ from allergy_alarm_app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.home, name="home"),
+    path("chart", views.excel_to_chart, name='excel_chart'),
     path("dashboard", views.dashboard, name="dashboard")
 ]
