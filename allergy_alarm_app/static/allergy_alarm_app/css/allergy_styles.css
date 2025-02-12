@@ -10,3 +10,20 @@ p {
     text-align:center;
     color:black;
 }
+
+ul {
+    list-style-type: none; /* Removes the bullets */
+    padding: 0; /* Removes the default padding */
+}
+
+li {
+    list-style-type: none;
+    padding: 0;
+}
+
+a {
+    text-align:center;
+}
+button {
+    text-align:center;
+}
