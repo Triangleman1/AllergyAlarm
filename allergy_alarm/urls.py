@@ -21,9 +21,12 @@ from django.conf.urls.static import static
 from django.conf import settings
 from allergy_alarm_app import views
 
+app_name = "allergy"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.home, name="home"),
     path("chart", views.excel_to_chart, name='excel_chart'),
-    path("dashboard", views.dashboard, name="dashboard")
+    path("dashboard", views.dashboard, name="dashboard"),
+    path("login", views.login_view, name="login"),
+    path("logout", views.logout, name="logout")
 ]
