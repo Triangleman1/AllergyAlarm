@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
 from allergy_alarm_app import templates
 import openpyxl
 import io
@@ -8,12 +10,33 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 # Create your views here.
 def home(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
     return render(request, "allergy_alarm_app/allergy_home.html")
 
 def dashboard(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
     return render(request, "allergy_alarm_app/base.html")
 
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse("home"))
+        else:
+            return render(request, "allergy_alarm_app/login.html", {
+                "message": "Invalid credentials"
+            })
+    return render(request, "allergy_alarm_app/login.html")
 
+def logout(request):
+    return render(request, "allergy_alarm_app/login.html", {
+        "message": "Logged out."
+    })
 
 def excel_to_chart(request):
     # Your Excel file path (or it could be uploaded by the user in a form)
