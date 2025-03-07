@@ -10,13 +10,14 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 # Create your views here.
 def home(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
+    #Commented out for now so we don't have to deal with logging in
+    #if not request.user.is_authenticated:
+        #return HttpResponseRedirect(reverse("login"))
     return render(request, "allergy_alarm_app/allergy_home.html")
 
 def dashboard(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
+    #if not request.user.is_authenticated:
+        #return HttpResponseRedirect(reverse("login"))
     return render(request, "allergy_alarm_app/base.html")
 
 def login_view(request):
