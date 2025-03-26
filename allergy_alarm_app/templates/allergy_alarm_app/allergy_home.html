@@ -5,6 +5,8 @@
 <head>
     <title> Allergy Alarm </title>
     <link href="static/allergy_alarm_app/css/allergy_styles.css" rel="stylesheet">
+    <link href="static/allergy_alarm_app/css/bootstrap.min.css" rel="stylesheet" >
+    <link href="static/allergy_alarm_app/css/main.css" rel="stylesheet" >
 </head>
 <body>
 
@@ -12,9 +14,13 @@
 
 <p>Welcome, {{ request.user.username }}</p>
 
-<a href="dashboard">
+{% comment %} <a href="dashboard">
     <button>Dashboard</button>
 </a>
+{% endcomment %}
+
+<button type="button" class="btn btn-primary" onclick="location.href='chart'">Data</button>
+
 <a href="logout">
     <button>Log Out</button>
 </a>
