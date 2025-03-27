@@ -1,0 +1,89 @@
+Zero-rate level - the actual output signal if there is no angular rate present.
+
+
+
+Gyroscope: I3G4250D
+Digital
+Positive for counterclockwise
+Angular Data: (register address)
+OUT_X_L (0x28), OUT_X_H (0x29)
+OUT_Y_L (0x2A), OUT_Y_H (0x2B)
+OUT_Z_L (0x2C), OUT_Z_H (0x2D)
+All use two's Complement
+
+Based on accelerometer, X_L and X_H combine to form full X
+
+Modes:
+Bypass (one stored at a time)
+FIFO   (Once full, buffer stops taking in input)
+Stream (continuously stored, oldest get erased when buffer fills)
+
+
+
+
+Heart Rate: MAX30001
+ECG:
+ECG samples are recorded in 18-bit, left justified two’s compliment format. After converting to signed magnitude 
+format, the ECG input voltage is calculated by the following equation:
+
+VECG (mV) = ADC x VREF / (2^17 x ECG_GAIN)
+
+ADC is the ADC counts in signed magnitude format
+VREF is 1000mV (typ) (refer to the Electrical Characteristics section)
+ECG_GAIN is 20V/V, 40V/V, 80V/V, or 160V/V, set in CNFG_ECG (0x15)
+
+R-R:
+?
+
+Pace Detection:
+Real time monitoring of pace edge events can be accomplished by unmasking PEDGE via EN_INT (0x02) and 
+EN_INT2 (0x03) and using the self-clear behavior; see CLR_PEDGE=1 in register MNGR_INT (0x04).
+
+A single-ended analog signal is provided at pin AOUT to allow digitization of the PACE pulses with an 
+external analog to digital converter. See register CNFG_PACE (0x1A) for gain, low pass and high pass filter 
+options and AOUT signal selection.
+
+BioZ:
+20-bit, left justified two’s compliment format. After converting to signed magnitude format, BioZ is 
+calculated by the following equation:
+
+BioZ (Ω) = ADC x VREF / (2^19 x BIOZ_CGMAG x BIOZ_GAIN)
+
+ADC is the ADC counts in signed magnitude format, VREF is 1V (typ) (refer to the Electrical Characteristics section), 
+BIOZ_CGMAG is 8 to 96 x 10^-6A, 
+BIOZ_GAIN is 10V/V, 20V/V, 40V/V, or 80V/V. BIOZ_CGMAG and BIOZ_GAIN are set in CNFG_BIOZ (0x18).
+
+
+
+
+Accelerometer: LIS2DW12
+16 bit output, three axis
+14 bit resolution for most power modes 
+12 bit resolution for lowest power mode (low power mode 1)
+
+32 slot FIFO
+5 modes:
+Bypass - One output at a time
+FIFO - Stops collecting when buffer is full
+Continuous - Data moves between all 32 slots before being discarded - buffer always full of most recent
+Continuous to FIFO - Continuous until a trigger (example: free fall)
+Bypass to continuous - Bypass until a trigger
+
+Output registers:
+OUT_X_L
+OUT_X_H
+OUT_Y_L
+OUT_Y_H
+OUT_Z_L
+OUT_Z_H
+Each is 8 bits. Combined into 3 16 bit values.
+
+Free Fall Detection?
+
+
+
+Temperature: MAX30210
+FIFO contains up to 64, 2-byte temperature readings from a 16-bit ADC measurement
+To calculate the temperature from the measurement result, convert the two’s complement value to the decimal value and 
+use the following equation. 
+T = Decimal Value × 0.005 
