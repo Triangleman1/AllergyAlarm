@@ -1,0 +1,54 @@
+Just some pseudocode/notes/scraps as I learn SQL
+
+CREATE TABLE user(
+    datetime DATETIME PRIMARY KEY
+    temperature INT 
+    heartrate INT
+)
+
+INSERT INTO user
+    (datetime, temperature, heartrate)
+    VALUES (ex_datetime, ex_temperature, ex_heartrate)
+
+
+SELECT temperature FROM user WHERE datetime > _____ ORDER BY datetime
+
+After table creation code is added to models.py: 
+python manage.py makemigrations
+python manage.py migrate
+
+To enter python shell and execute python's syntax for manipulating SQL there: 
+python manage.py shell
+
+In shell:
+from allergy_alarm_app.models import UserIdentification
+a = UserIdentification(username = "ex_name", userID = ex_ID) #Insert Query
+a.save()
+UserData.objects.all()  #Will print out all entries in table. For pretty names, need to implement def __str__(self) inside UserData class.
+UserData.objects.filter(datetime__lte=ex_datetime)   #Select less than or equal to
+__gt= greater than
+__gte= greater than or equal to
+__lte= less than or equal to
+__lt= less than
+
+UserData.objects.get(temperature=ex_temperature)
+UserData.objects.exclude(temperature=ex_temperature)
+
+#Once we grab a row, we can access each table entry by specifying the column
+row1 = UserData.objects.first()     #Grabs a row
+row1.datetime      #returns this row's datetime
+row1.temperature   #returns this row's temperature
+row1.delete()      #deletes row
+#Basically we can now use python syntax
+
+To use relational nature of SQL, can replace a column with keys to a second table
+temperature = models.ForeignKey(TableClass2, on_delete=models.CASCADE, related_name = "UserDataEntry")  
+#The cascade parameter basically means that if an entry is deleted in one table and it is keyed in other tables, it'll be deleted from those tables too.
+#The related_name will allow us to work backwards.
+
+To manage databases through Django's UI, need to use our app's admin page.
+First, add yourself as superuser. python manage.py createsuperuser
+Will also need to import and register classes in admin.py (example in admin.py)
+
+SQL searches are efficient. Also, having variable numbers of tables is generally a bad organizational idea.
+Better to have 1 big table for all user data. For search efficiency, might be good to give users IDs.
