@@ -5,7 +5,7 @@ class UserIdentification(models.Model):
     #An implicit primary key column is automatically created. All ForeignKeys to this table refer to this column.
 
     def __str__(self):
-        return f"User {self.username}"
+        return f"{self.username}"
 
 class Temperature(models.Model):
     userID = models.ForeignKey(UserIdentification, on_delete=models.CASCADE)
@@ -13,7 +13,7 @@ class Temperature(models.Model):
     temperature = models.IntegerField()
 
     def __str__(self):
-        return f"User ID {self.userIdentification} at {self.datetime} had temp {self.temperature}"
+        return f"{self.datetime}: {self.userID} recorded temperature {self.temperature}"
     
 class HeartRate(models.Model):
     userID = models.ForeignKey(UserIdentification, on_delete=models.CASCADE)
@@ -21,7 +21,7 @@ class HeartRate(models.Model):
     ECG = models.IntegerField()
 
     def __str__(self):
-        return f"User ID {self.userID} at {self.datetime} had ECG: {self.ECG}"
+        return f"{self.datetime}: {self.userID} recorded ECG: {self.ECG}"
     
 class Accelerometer(models.Model):
     userID = models.ForeignKey(UserIdentification, on_delete=models.CASCADE)
@@ -31,7 +31,7 @@ class Accelerometer(models.Model):
     zAcceleration = models.IntegerField()
 
     def __str__(self):
-        return f"User ID {self.userID} at {self.datetime} had x: {self.xAcceleration}, y:{self.yAcceleration}, z:{self.zAcceleration}"
+        return f"{self.datetime}: {self.userID} recorded acceleration x: {self.xAcceleration}, y:{self.yAcceleration}, z:{self.zAcceleration}"
     
 class Gyroscope(models.Model):
     userID = models.ForeignKey(UserIdentification, on_delete=models.CASCADE)
@@ -41,4 +41,4 @@ class Gyroscope(models.Model):
     zAccelerationR = models.IntegerField()
 
     def __str__(self):
-        return f"User ID {self.userID} at {self.datetime} had x: {self.xAccelerationR}, y:{self.yAccelerationR}, z:{self.zAccelerationR}"
+        return f"{self.datetime}: {self.userID} recorded rotational acceleration x: {self.xAccelerationR}, y:{self.yAccelerationR}, z:{self.zAccelerationR}"
