@@ -31,15 +31,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="#">About</a>
           </li>
-          <li class="nav-item dropdown">
+          {% comment %} <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
             <div class="dropdown-menu">
               <a class="dropdown-item" href="#">Action</a>
@@ -48,22 +42,28 @@
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Separated link</a>
             </div>
-          </li>
+          </li> {% endcomment %}
         </ul>
-        <form class="d-flex">
+        {% comment %} <form class="d-flex">
           <input class="form-control me-sm-2" type="search" placeholder="Search">
           <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        </form> {% endcomment %}
       </div>
     </div>
   </nav>
 
 
-<div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
+<div class="card text-white bg-secondary mb-3" style="max-width: 100rem;">
     <div class="card-body">
       <h4 class="card-title">Welcome, {{ request.user.username }}</h4>
       <p class="card-text">Click on the Data button to see your data.</p>
     </div>
+  </div>
+
+  <div class="alert alert-dismissible alert-warning">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <h4 class="alert-heading">Warning!</h4>
+    <p class="mb-0">Warning! <a href="#" class="alert-link">link</a>.</p>
   </div>
 
 <button type="button" class="btn btn-primary" onclick="location.href='chart'">Data</button>
