@@ -1,0 +1,20 @@
+python manage.py collectstatic
+python manage.py runserver
+python manage.py createsuperuser
+
+python manage.py makemigrations
+python manage.py migrate
+
+python manage.py shell
+
+
+git add .                   (all in directory)
+git add "ex_file"           (Just one file/folder)
+git commit -m "ex_message"
+git push
+
+git pull
+
+git log     (see stored commits)
+
+git checkout --theirs -- Ex_path/ex_file (to just copy the online version of a file to solve a merge conflict - must add/commit file after)
