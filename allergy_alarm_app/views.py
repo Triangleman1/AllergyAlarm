@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from allergy_alarm_app import templates
@@ -7,6 +7,7 @@ import openpyxl
 import io
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from .models import Temperature
 
 # Create your views here.
 def home(request):
@@ -37,6 +38,19 @@ def login_view(request):
 def logout(request):
     return render(request, "allergy_alarm_app/login.html", {
         "message": "Logged out."
+    })
+
+def chart_view(request):
+    return render(request, 'allergy_alarm_app/chart.html')
+
+def chart_data(request):
+    data = Temperature.objects.all()
+    print([point.userID for point in data])
+    labels = [point.datetime.strftime("%B %d, %I:%M%p") for point in data] #if point.user_id == user
+    values = [point.temperature for point in data]
+    return JsonResponse(data={
+        'labels': labels,
+        'values': values,
     })
 
 def excel_to_chart(request):

@@ -28,5 +28,7 @@ urlpatterns = [
     path("chart", views.excel_to_chart, name='excel_chart'),
     path("dashboard", views.dashboard, name="dashboard"),
     path("login", views.login_view, name="login"),
-    path("logout", views.logout, name="logout")
+    path("logout", views.logout, name="logout"),
+    path('chartT/', views.chart_view, name='chartT'),
+    path('chart-data/', views.chart_data, name='chart-data'),
 ]

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chart.js with Django</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart" width="400" height="200"></canvas>
+    <script>
+        fetch('/chart-data/')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('myChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line', // or 'line', 'pie', etc.
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Temperatures',
+                            data: data.values,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                title: {
+                                  display: true,
+                                  align: 'center',
+                                  text: 'Temperatures',
+                                  padding: {
+                                    top: 10,
+                                    bottom: 5,
+                                    left: 0,
+                                    right: 0,
+                                  },
+                                },
+                                beginAtZero: true,
+                            }
+                        }
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
