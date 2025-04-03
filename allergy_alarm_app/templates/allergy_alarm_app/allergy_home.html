@@ -56,17 +56,23 @@
 <div class="card text-white bg-secondary mb-3" style="max-width: 100rem;">
     <div class="card-body">
       <h4 class="card-title">Welcome, {{ request.user.username }}</h4>
-      <p class="card-text">Click on the Data button to see your data.</p>
+      <p class="card-text">Click on the data buttons to see your data.</p>
     </div>
   </div>
 
   <div class="alert alert-dismissible alert-warning">
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     <h4 class="alert-heading">Warning!</h4>
-    <p class="mb-0">Warning! <a href="#" class="alert-link">link</a>.</p>
+    <p class="mb-0">Warning! <a href="#" class="alert-link">link_to_concern</a>.</p>
   </div>
 
 <button type="button" class="btn btn-primary" onclick="location.href='chart'">Data</button>
+
+<button type="button" class="btn btn-warning">Temperature</button>
+
+<button type="button" class="btn btn-danger">Motion</button>
+
+<button type="button" class="btn btn-info">Heart Rate</button>
 
 <button type="button" class="btn btn-secondary" onclick="location.href='logout'">Log Out</button>
 
