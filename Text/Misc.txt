@@ -1,6 +1,14 @@
 Just found out you can do:
 git add */views.py rather than typing out folders
 
+HEAD - pointer to a specific commit, I think it's user specific. 
+main - default name for default branch
+origin/main - remote copy of main 
+
+My HEAD got detached from any branches. Fixed with: 
+git checkout <branch-name>
+
+
 Mistakes/Bugs:
 Was looking at Csharp code for datetimes rather than python
 Forgot about __gte= 
