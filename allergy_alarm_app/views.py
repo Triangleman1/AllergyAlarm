@@ -2,12 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
-from allergy_alarm_app import templates
-import openpyxl
-import io
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from .models import *
+from datetime import datetime, timedelta
 
 # Create your views here.
 def home(request):
@@ -47,22 +43,24 @@ def chart_view(request, sensorType):
             })
 
 def chart_data(request, sensorType):
-    #Called by chart.html, gives it the proper data. sensorType is a string which should match the sensor and table name
-    if (sensorType == "Temperature"): 
-        print("test:temp")
-        data = Temperature.objects.all()
+    #Called by chart.html, gives it the proper data. sensorType is a string specified by buttons.
+    if (sensorType == "Temperature"):
+        table = Temperature
+        data = table.objects.filter(datetime__gte=datetime.now()-timedelta(days=1)) #__gte= is the syntax for greater than or equal to for table queries
         values = [point.temperature for point in data]
     elif (sensorType == "HeartRate"): 
-        data = HeartRate.objects.all()
+        table = HeartRate
+        data = table.objects.filter(datetime__gte=datetime.now()-timedelta(days=1))
         values = [point.ECG for point in data]
     elif (sensorType == "Accelerometer"): 
-        print("test:accel")
-        data = Accelerometer.objects.all()
+        table = Accelerometer
+        data = table.objects.filter(datetime__gte=datetime.now()-timedelta(days=1))
         values = [point.x for point in data]
     elif (sensorType == "Gyroscope"): 
-        data = Gyroscope.objects.all()
+        table = Gyroscope
+        data = table.objects.filter(datetime__gte=datetime.now()-timedelta(days=1))
         values = [point.x for point in data]
-    print([point.userID for point in data])
+    
     labels = [point.datetime.strftime("%B %d, %I:%M%p") for point in data] #if point.user_id == user
     return JsonResponse(data={
         'labels': labels,
