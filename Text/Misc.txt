@@ -1,0 +1,6 @@
+Just found out you can do:
+git add */views.py rather than typing out folders
+
+Mistakes/Bugs:
+Was looking at Csharp code for datetimes rather than python
+Forgot about __gte= 
