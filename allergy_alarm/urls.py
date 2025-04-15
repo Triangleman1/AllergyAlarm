@@ -25,10 +25,10 @@ app_name = "allergy"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.home, name="home"),
-    path("chart", views.excel_to_chart, name='excel_chart'),
-    path("dashboard", views.dashboard, name="dashboard"),
-    path("login", views.login_view, name="login"),
-    path("logout", views.logout, name="logout"),
-    path('chartT/', views.chart_view, name='chartT'),
-    path('chart-data/', views.chart_data, name='chart-data'),
+    #path("chart", views.excel_to_chart, name='excel_chart'),
+    path("dashboard/", views.dashboard, name="dashboard"),
+    path("login/", views.login_view, name="login"),
+    path("logout/", views.logout_view, name="logout"),
+    path('chart/<str:sensorType>/', views.chart_view, name='chart'),
+    path('chart-data/<str:sensorType>/', views.chart_data, name='chart-data'),
 ]
