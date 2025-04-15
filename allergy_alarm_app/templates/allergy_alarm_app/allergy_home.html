@@ -66,15 +66,17 @@
     <p class="mb-0">Warning! <a href="#" class="alert-link">link_to_concern</a>.</p>
   </div>
 
-<button type="button" class="btn btn-primary" onclick="location.href='chart'">Data</button>
+{% comment %} <button type="button" class="btn btn-primary" onclick="location.href='chart'">Data</button> {% endcomment %}
 
-<button type="button" class="btn btn-warning" onclick="location.href='chartT'">Temperature</button>
+<button type="button" class="btn btn-info" onclick="location.href='{% url "chart" sensorType="HeartRate" %}'">Heart Rate</button>
 
-<button type="button" class="btn btn-danger">Motion</button>
+<button type="button" class="btn btn-warning" onclick="location.href='{% url "chart" sensorType="Temperature" %}'">Temperature</button>
 
-<button type="button" class="btn btn-info">Heart Rate</button>
+<button type="button" class="btn btn-danger" onclick="location.href='{% url "chart" sensorType="Accelerometer" %}'">Acceleration</button>
 
-<button type="button" class="btn btn-secondary" onclick="location.href='logout'">Log Out</button>
+<button type="button" class="btn btn-primary" onclick="location.href='{% url "chart" sensorType="Gyroscope" %}'">Rotation</button>
+
+<button type="button" class="btn btn-secondary" onclick="location.href='{% url "logout" %}'">Log Out</button>
 
 </body>
 </html>

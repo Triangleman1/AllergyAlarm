@@ -8,16 +8,18 @@
 <body>
     <canvas id="myChart" width="400" height="200"></canvas>
     <script>
-        fetch('/chart-data/')
+        var sensorType = "{{ sensorType }}";
+        var url = "{% url 'chart-data' 'temp' %}".replace(/temp/, sensorType);
+        fetch(url)
             .then(response => response.json())
             .then(data => {
                 const ctx = document.getElementById('myChart').getContext('2d');
                 new Chart(ctx, {
-                    type: 'line', // or 'line', 'pie', etc.
+                    type: 'line',
                     data: {
                         labels: data.labels,
                         datasets: [{
-                            label: 'Temperatures',
+                            label: '',
                             data: data.values,
                             backgroundColor: 'rgba(75, 192, 192, 0.2)',
                             borderColor: 'rgba(75, 192, 192, 1)',
@@ -25,12 +27,18 @@
                         }]
                     },
                     options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                        },
                         scales: {
                             y: {
                                 title: {
                                   display: true,
                                   align: 'center',
-                                  text: 'Temperatures',
+                                  text: data.ylabel,
                                   padding: {
                                     top: 10,
                                     bottom: 5,
