@@ -2,4 +2,4 @@
 __pycache__/
 
 # ignore ALL .log files
-*.sqlite3
+db.sqlite3
