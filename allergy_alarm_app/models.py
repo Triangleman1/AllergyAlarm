@@ -26,19 +26,19 @@ class HeartRate(models.Model):
 class Accelerometer(models.Model):
     userID = models.ForeignKey(UserIdentification, on_delete=models.CASCADE)
     datetime = models.DateTimeField(auto_now=False, auto_now_add=False)
-    xAcceleration = models.IntegerField()
-    yAcceleration = models.IntegerField()
-    zAcceleration = models.IntegerField()
+    x = models.IntegerField()
+    y = models.IntegerField()
+    z = models.IntegerField()
 
     def __str__(self):
-        return f"{self.datetime}: {self.userID} recorded acceleration x: {self.xAcceleration}, y:{self.yAcceleration}, z:{self.zAcceleration}"
+        return f"{self.datetime}: {self.userID} recorded acceleration x: {self.x}, y:{self.y}, z:{self.z}"
     
 class Gyroscope(models.Model):
     userID = models.ForeignKey(UserIdentification, on_delete=models.CASCADE)
     datetime = models.DateTimeField(auto_now=False, auto_now_add=False)
-    xAccelerationR = models.IntegerField()
-    yAccelerationR = models.IntegerField()
-    zAccelerationR = models.IntegerField()
+    x = models.IntegerField()
+    y = models.IntegerField()
+    z = models.IntegerField()
 
     def __str__(self):
-        return f"{self.datetime}: {self.userID} recorded rotational acceleration x: {self.xAccelerationR}, y:{self.yAccelerationR}, z:{self.zAccelerationR}"
+        return f"{self.datetime}: {self.userID} recorded rotational acceleration x: {self.x}, y:{self.y}, z:{self.z}"
