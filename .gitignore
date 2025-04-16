@@ -1,8 +1,12 @@
 # ignore any files in directories named __pycache__
 __pycache__/
 
-# ignore ALL .log files
+# ignore ALL .sqlite3 files
 *.sqlite3
+
+# ignore migrations
+*/migrations/
+
 
 #Type this into terminal if you want to ignore a file you're already tracking
 #git rm --cached exFileName
