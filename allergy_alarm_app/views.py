@@ -60,6 +60,8 @@ def chart_data(request, sensorType):
         table = Gyroscope
         data = table.objects.filter(datetime__gte=datetime.now()-timedelta(days=1))
         values = [point.x for point in data]
+
+    print(User.objects.first().userExtension.test)
     
     labels = [point.datetime.strftime("%B %d, %I:%M%p") for point in data] #if point.user_id == user
     return JsonResponse(data={
