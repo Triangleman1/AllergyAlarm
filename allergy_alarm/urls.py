@@ -29,6 +29,6 @@ urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
-    path('chart/<str:sensorType>/', views.chart_view, name='chart'),
-    path('chart-data/<str:sensorType>/', views.chart_data, name='chart-data'),
+    path('chart/<str:sensorType>/<str:timeRange>', views.chart_view, name='chart'),
+    path('chart-data/<str:sensorType>/<str:timeRange>', views.chart_data, name='chart-data'),
 ]

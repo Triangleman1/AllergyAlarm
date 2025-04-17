@@ -68,13 +68,13 @@
 
 {% comment %} <button type="button" class="btn btn-primary" onclick="location.href='chart'">Data</button> {% endcomment %}
 
-<button type="button" class="btn btn-info" onclick="location.href='{% url "chart" sensorType="HeartRate" %}'">Heart Rate</button>
+<button type="button" class="btn btn-info" onclick="location.href='{% url "chart" sensorType="Heart Rate" timeRange="day" %}'">Heart Rate</button>
 
-<button type="button" class="btn btn-warning" onclick="location.href='{% url "chart" sensorType="Temperature" %}'">Temperature</button>
+<button type="button" class="btn btn-warning" onclick="location.href='{% url "chart" sensorType="Temperature" timeRange="day" %}'">Temperature</button>
 
-<button type="button" class="btn btn-danger" onclick="location.href='{% url "chart" sensorType="Accelerometer" %}'">Acceleration</button>
+<button type="button" class="btn btn-danger" onclick="location.href='{% url "chart" sensorType="Accelerometer" timeRange="day" %}'">Acceleration</button>
 
-<button type="button" class="btn btn-primary" onclick="location.href='{% url "chart" sensorType="Gyroscope" %}'">Rotation</button>
+<button type="button" class="btn btn-primary" onclick="location.href='{% url "chart" sensorType="Gyroscope" timeRange="day" %}'">Rotation</button>
 
 <button type="button" class="btn btn-secondary" onclick="location.href='{% url "logout" %}'">Log Out</button>
 
