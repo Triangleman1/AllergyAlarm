@@ -7,6 +7,5 @@ __pycache__/
 # ignore migrations
 */migrations/
 
-
-#Type this into terminal if you want to ignore a file you're already tracking
+#Type this into terminal for each of the above if you're already tracking them (Katie, you probably are for all of them)
 #git rm --cached exFileName

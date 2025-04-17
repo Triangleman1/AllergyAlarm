@@ -24,7 +24,7 @@
     <button id="PlotAcceleration" type="button" class="btn btn-info">Acceleration</button>
     <button id="PlotRotation" type="button" class="btn btn-info">Rotation</button>
     <button type="button" class="btn btn-info" style="position: absolute; right: 0;" onclick="location.href='{% url "home" %}'">Home</button>
-    {% comment %} <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.min.js"></script> {% endcomment %}
+
     <script>
         var currentChart;
         var sensorType = "{{ sensorType }}";
@@ -42,7 +42,7 @@
                     currentChart = new Chart(ctx, {
                         type: 'line',
                         data: {
-                            //labels: data.labels,
+                            //labels:
                             datasets: [{
                                 label: '',
                                 data: data.values,
@@ -78,7 +78,6 @@
                                     time: {
                                         unit: data.xTimeScale
                                     },
-                                    //position: 'bottom'
                                 }
                             }
                         }
