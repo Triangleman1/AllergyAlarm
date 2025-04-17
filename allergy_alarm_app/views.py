@@ -7,14 +7,14 @@ from datetime import datetime, timedelta
 
 # Create your views here.
 def home(request):
-    #Commented out for now so we don't have to deal with logging in
-    #if not request.user.is_authenticated:
-        #return HttpResponseRedirect(reverse("login"))
+    #Comment out to not have to deal with logging in
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
     return render(request, "allergy_alarm_app/allergy_home.html")
 
 def dashboard(request):
-    #if not request.user.is_authenticated:
-        #return HttpResponseRedirect(reverse("login"))
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
     return render(request, "allergy_alarm_app/base.html")
 
 def login_view(request):
@@ -32,18 +32,24 @@ def login_view(request):
     return render(request, "allergy_alarm_app/login.html")
 
 def logout_view(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
     logout(request)
     return render(request, "allergy_alarm_app/login.html", {
         "message": "Logged out."
     })
 
 def chart_view(request, sensorType, timeRange):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
     return render(request, 'allergy_alarm_app/chart.html', {
                 "sensorType": sensorType,
                 "timeRange": timeRange,
             })
 
 def chart_data(request, sensorType, timeRange):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
     #Called by chart.html, gives it the proper data. sensorType and timeRange are strings specified by buttons upon clicking.
     present = datetime.now()
 
@@ -96,10 +102,13 @@ def chart_data(request, sensorType, timeRange):
     xTimeScale = timeData["xTimeScale"]
 
     sensorData = sensorDict[sensorType]
-    data = sensorData["table"].objects.filter(datetime__gte=start).order_by('datetime') #__gte= is syntax for greater than or equal to for django table queries
+    data = sensorData["table"].objects.filter(datetime__gte=start).filter(user=request.user).order_by('datetime') #__gte= is syntax for greater than or equal to for django table queries
     values = [[point.datetime, getattr(point, sensorData["plotColumn"])] for point in data] #getattr() takes in a column's name and returns that column
     fillColor = sensorData["fillColor"]
     lineColor = sensorData["lineColor"]
+
+    #print(request.user.username)
+    #print(sensorData["table"].user.username)
 
     #Outputs to chart.html's javascript plotting function
     return JsonResponse(data={

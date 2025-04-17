@@ -30,8 +30,12 @@ b = HeartRate(user = user1, datetime = rounded_time-timedelta(minutes=24), ECG =
 b.save()
 c = HeartRate(user = user1, datetime = rounded_time-timedelta(hours=2), ECG = 130) 
 c.save()
-d = HeartRate(user = user2, datetime = rounded_time-timedelta(hours=5), ECG = 85) #user2 test
+d = HeartRate(user = user2, datetime = rounded_time-timedelta(hours=5), ECG = 0) #user2 test
 d.save()
+d2 = HeartRate(user = user2, datetime = rounded_time-timedelta(hours=6), ECG = 0) #user2 test
+d2.save()
+d3 = HeartRate(user = user2, datetime = rounded_time-timedelta(hours=7), ECG = 0) #user2 test
+d3.save()
 e = HeartRate(user = user1, datetime = rounded_time-timedelta(hours=13), ECG = 120) 
 e.save()
 f = HeartRate(user = user1, datetime = rounded_time-timedelta(hours=25), ECG = 92) #Day test (should not appear)
