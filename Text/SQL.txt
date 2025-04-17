@@ -1,5 +1,7 @@
 Just some pseudocode/notes/scraps as I learn SQL
 
+Actual SQL syntax:
+
 CREATE TABLE user(
     datetime DATETIME PRIMARY KEY
     temperature INT 
@@ -10,7 +12,6 @@ INSERT INTO user
     (datetime, temperature, heartrate)
     VALUES (ex_datetime, ex_temperature, ex_heartrate)
 
-
 SELECT temperature FROM user WHERE datetime > _____ ORDER BY datetime
 
 After table creation code is added to models.py: 
@@ -20,10 +21,10 @@ python manage.py migrate
 To enter python shell and execute python's syntax for manipulating SQL there: 
 python manage.py shell
 
-In shell:
+In shell (or in a python file), can execute django's custom syntax for SQL:
 from allergy_alarm_app.models import UserExtension
-a = UserExtension(username = "ex_name", userID = ex_ID) #Insert Query
-a.save()
+a = UserExtension(username = "ex_name", userID = ex_ID) #Create row
+a.save() #Insert row
 UserExtension.objects.all()  #Will print out all entries in table. For pretty names, need to implement def __str__(self) inside UserData class.
 UserExtension.objects.filter(datetime__lte=ex_datetime)   #Select less than or equal to
 __gt= greater than
@@ -61,3 +62,6 @@ When .save() is performed, a series of events occur to prepare data for table in
 will trigger before insertion. post_save() functions will trigger after.
 To add an extension to the user class, must use a post_save to create and connect the extension.
 save() implements both INSERT and UPDATE SQL commands. If primary key is 'None', inserts. Otherwise, updates.
+
+If I need to check if a username already exists:
+if not User.objects.filter(username='username').exists():
