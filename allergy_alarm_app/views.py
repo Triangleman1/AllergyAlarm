@@ -37,64 +37,90 @@ def logout_view(request):
         "message": "Logged out."
     })
 
-def chart_view(request, sensorType):
+def chart_view(request, sensorType, timeRange):
     return render(request, 'allergy_alarm_app/chart.html', {
-                "sensorType": sensorType
+                "sensorType": sensorType,
+                "timeRange": timeRange,
             })
 
-def chart_data(request, sensorType):
+def chart_data(request, sensorType, timeRange):
     #Called by chart.html, gives it the proper data. sensorType is a string specified by buttons.
-    if (sensorType == "Temperature"):
-        table = Temperature
-        data = table.objects.filter(datetime__gte=datetime.now()-timedelta(days=1)) #__gte= is the syntax for greater than or equal to for table queries
-        values = [point.temperature for point in data]
-    elif (sensorType == "HeartRate"): 
-        table = HeartRate
-        data = table.objects.filter(datetime__gte=datetime.now()-timedelta(days=1))
-        values = [point.ECG for point in data]
-    elif (sensorType == "Accelerometer"): 
-        table = Accelerometer
-        data = table.objects.filter(datetime__gte=datetime.now()-timedelta(days=1))
-        values = [point.x for point in data]
-    elif (sensorType == "Gyroscope"): 
-        table = Gyroscope
-        data = table.objects.filter(datetime__gte=datetime.now()-timedelta(days=1))
-        values = [point.x for point in data]
-    
-    labels = [point.datetime.strftime("%B %d, %I:%M%p") for point in data] #if point.user_id == user
+    present = datetime.now()
+    # if (timeRange == "hour"): 
+    #     start = present-timedelta(hours=1)
+    #     xTimeScale = "minutes"
+    # elif (timeRange == "day"): 
+    #     start = present-timedelta(days=1)
+    #     xTimeScale = "hours"
+    # elif (timeRange == "week"): 
+    #     start = present-timedelta(weeks=1)
+    #     xTimeScale = "days"
+    # elif (timeRange == "month"): 
+    #     start = present-timedelta(weeks=4)
+    #     xTimeScale = 
+    # elif (timeRange == "year"): start = present-timedelta(weeks=52)
+
+    #To edit time-specific plotting settings, change values inside this dictionary
+    timeDict ={
+        "hour":     {"TimeRange": timedelta(hours=1),
+                     "xTimeScale": "minute",
+                     },
+        "day":      {"TimeRange": timedelta(days=1),
+                     "xTimeScale": "hour",
+                     },
+        "week":     {"TimeRange": timedelta(weeks=1),
+                     "xTimeScale": "day",
+                     },
+        "month":    {"TimeRange": timedelta(weeks=4),
+                     "xTimeScale": "day",
+                     },
+        "year":     {"TimeRange": timedelta(weeks=52),
+                     "xTimeScale": "month",
+                     },
+    }
+
+    #To edit sensor-specific plotting settings, change values inside this dictionary
+    sensorDict ={
+        "Temperature":      {"table": Temperature, 
+                             "plotColumn": "temperature",
+                             "fillColor": 'rgb(227, 113, 37, 0.2)',
+                             "lineColor": 'rgb(227, 113, 37, 1)',
+                             },
+        "Heart Rate":       {"table": HeartRate, 
+                             "plotColumn": "ECG",
+                             "fillColor": 'rgb(213, 18, 18, 0.2)',
+                             "lineColor": 'rgb(213, 18, 18, 1)',
+                             },
+        "Accelerometer":    {"table": Accelerometer, 
+                             "plotColumn": "x",
+                             "fillColor": 'rgba(75, 192, 192, 0.2)',
+                             "lineColor": 'rgba(75, 192, 192, 1)',
+                             },
+        "Gyroscope":        {"table": Gyroscope, 
+                             "plotColumn": "x",
+                             "fillColor": 'rgb(113, 14, 193, 0.2)',
+                             "lineColor": 'rgb(113, 14, 193, 1)',
+                             },
+    }
+
+    #This code is time-agnostic and sensor-agnostic - Converts above data into the forms that javascript needs
+    timeData = timeDict[timeRange]
+    start = present-timeData["TimeRange"]
+    xTimeScale = timeData["xTimeScale"]
+
+    sensorData = sensorDict[sensorType]
+    data = sensorData["table"].objects.filter(datetime__gte=start).order_by('datetime') #__gte= is syntax for greater than or equal to for django table queries
+    values = [[point.datetime, getattr(point, sensorData["plotColumn"])] for point in data] #getattr takes in a column's name and returns that column
+    fillColor = sensorData["fillColor"]
+    lineColor = sensorData["lineColor"]
+
+    #Outputs to chart.html's javascript plotting function
+    #labels = [point.datetime.strftime("%B %d, %I:%M%p") for point in data] #if point.user_id == user
     return JsonResponse(data={
-        'labels': labels,
+        #'labels': labels,
         'values': values,
         'ylabel': sensorType,
+        'fillColor': fillColor,
+        'lineColor': lineColor,
+        'xTimeScale': xTimeScale,
     })
-
-
-# def excel_to_chart(request):
-#     # Your Excel file path (or it could be uploaded by the user in a form)
-#     excel_file_path = 'TestFile.xlsx'
-
-#     # Read the Excel file using openpyxl
-#     workbook = openpyxl.load_workbook(excel_file_path)
-#     sheet = workbook.active
-
-#     # Extract data from the Excel sheet (assumes data starts from row 2)
-#     # For example, assume the Excel sheet has columns 'Date' and 'Value'
-#     dates = []
-#     values = []
-
-#     for row in sheet.iter_rows(min_row=2, values_only=True):
-#         dates.append(row[0])  # assuming 'Date' is the first column
-#         values.append(row[1])  # assuming 'Value' is the second column
-
-#     # Create a chart using matplotlib
-#     fig, ax = plt.subplots()
-#     ax.plot(dates, values, marker='o', linestyle='-', color='b')
-
-#     ax.set(xlabel='Date', ylabel='Value',
-#            title='Example Data Visualization')
-
-#     # Generate the plot and send as response
-#     response = HttpResponse(content_type='image/png')
-#     canvas = FigureCanvas(fig)
-#     canvas.print_png(response)
-#     return response

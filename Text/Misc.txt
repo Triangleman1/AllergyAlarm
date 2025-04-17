@@ -1,6 +1,22 @@
 Just found out you can do:
 git add */views.py rather than typing out folders
 
+HEAD - pointer to a specific commit, I think it's user specific. 
+main - default name for default branch
+origin/main - remote copy of main 
+
+My HEAD got detached from any branches. Fixed with: 
+git checkout <branch-name>
+
+To convert date times into custom readable formats:
+[point.datetime.strftime("%B %d, %I:%M%p") for point in data]
+
+
 Mistakes/Bugs:
 Was looking at Csharp code for datetimes rather than python
 Forgot about __gte= 
+Django settings automatically added a default time zone in tables
+Any python file I write and run that uses django files needs to run a set up function beforehand
+The x-axis values for chart.js need to be strings but the y-axis don't???
+Default chart.js x-axis type is category - why everything is evenly spaced
+I needed to install a driver - didn't know javascript gave its error messages in the inspect menu
