@@ -1,57 +1,103 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Chart.js with Django</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@^2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@^1"></script>
+    <link href="static/allergy_alarm_app/css/allergy_styles.css" rel="stylesheet">
+    <link href="static/allergy_alarm_app/css/bootstrap.min.css" rel="stylesheet" >
+    <link href="static/allergy_alarm_app/css/main.css" rel="stylesheet" >
 </head>
 <body>
-    <canvas id="myChart" width="400" height="200"></canvas>
+    <canvas id="myChart" width="400" height="180"></canvas>
+    <button id="PlotHour" type="button" class="btn btn-info">Hour</button>
+    <button id="PlotDay" type="button" class="btn btn-info">Day</button>
+    <button id="PlotWeek" type="button" class="btn btn-info">Week</button>
+    <button id="PlotMonth" type="button" class="btn btn-info">Month</button>
+    <button id="PlotYear" type="button" class="btn btn-info">Year</button> &nbsp;&nbsp;&nbsp;
+    <button id="PlotTemperature" type="button" class="btn btn-info">Temperature</button>
+    <button id="PlotHeartRate" type="button" class="btn btn-info">Heart Rate</button>
+    <button id="PlotAcceleration" type="button" class="btn btn-info">Acceleration</button>
+    <button id="PlotRotation" type="button" class="btn btn-info">Rotation</button>
+    <button type="button" class="btn btn-info" style="position: absolute; right: 0;" onclick="location.href='{% url "home" %}'">Home</button>
+    {% comment %} <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.min.js"></script> {% endcomment %}
     <script>
+        var currentChart;
         var sensorType = "{{ sensorType }}";
-        var url = "{% url 'chart-data' 'temp' %}".replace(/temp/, sensorType);
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const ctx = document.getElementById('myChart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: data.labels,
-                        datasets: [{
-                            label: '',
-                            data: data.values,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
+        var timeRange = "{{ timeRange }}";
+        var fillColor;
+        var lineColor; 
+
+        function Plot() {
+            var url = "{% url 'chart-data' 'temp' 'temp2'%}".replace(/temp/, sensorType).replace(/temp2/, timeRange);
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const ctx = document.getElementById('myChart').getContext('2d');
+                    if (currentChart) currentChart.destroy()
+                    currentChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            //labels: data.labels,
+                            datasets: [{
+                                label: '',
+                                data: data.values,
+                                backgroundColor: data.fillColor,
+                                borderColor: data.lineColor, //'rgb(113, 14, 193)' Can use this to test colors interactively
+                                borderWidth: 1
+                            }]
                         },
-                        scales: {
-                            y: {
-                                title: {
-                                  display: true,
-                                  align: 'center',
-                                  text: data.ylabel,
-                                  padding: {
-                                    top: 10,
-                                    bottom: 5,
-                                    left: 0,
-                                    right: 0,
-                                  },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: false
                                 },
-                                beginAtZero: true,
+                            },
+                            scales: {
+                                y: {
+                                    title: {
+                                    display: true,
+                                    align: 'center',
+                                    text: data.ylabel,
+                                    padding: {
+                                        top: 10,
+                                        bottom: 5,
+                                        left: 0,
+                                        right: 0,
+                                    },
+                                    },
+                                    beginAtZero: true,
+                                },
+                                x: {
+                                    type: 'time',
+                                    time: {
+                                        unit: data.xTimeScale
+                                    },
+                                    //position: 'bottom'
+                                }
                             }
                         }
-                    }
+                    });
                 });
-            });
+        }
+        
+        Plot(sensorType, timeRange);
+
+        document.querySelector("#PlotHour").onclick = function() {timeRange = "hour"; Plot();}
+        document.querySelector("#PlotDay").onclick = function() {timeRange = "day"; Plot();}
+        document.querySelector("#PlotWeek").onclick = function() {timeRange = "week"; Plot();}
+        document.querySelector("#PlotMonth").onclick = function() {timeRange = "month"; Plot();}
+        document.querySelector("#PlotYear").onclick = function() {timeRange = "year"; Plot();}
+
+        document.querySelector("#PlotTemperature").onclick = function() {sensorType = "Temperature"; Plot();}
+        document.querySelector("#PlotHeartRate").onclick = function() {sensorType = "Heart Rate"; Plot();}
+        document.querySelector("#PlotAcceleration").onclick = function() {sensorType = "Accelerometer"; Plot();}
+        document.querySelector("#PlotRotation").onclick = function() {sensorType = "Gyroscope"; Plot();}
     </script>
 </body>
 </html>
