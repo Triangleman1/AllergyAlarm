@@ -12,11 +12,6 @@
 
 <h1>Allergy Alarm</h1>
 
-{% comment %} <a href="dashboard">
-    <button>Dashboard</button>
-</a>
-{% endcomment %}
-
 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Navbar</a>
@@ -65,8 +60,6 @@
     <h4 class="alert-heading">Warning!</h4>
     <p class="mb-0">Warning! <a href="#" class="alert-link">link_to_concern</a>.</p>
   </div>
-
-{% comment %} <button type="button" class="btn btn-primary" onclick="location.href='chart'">Data</button> {% endcomment %}
 
 <button type="button" class="btn btn-info" onclick="location.href='{% url "chart" sensorType="Heart Rate" timeRange="day" %}'">Heart Rate</button>
 

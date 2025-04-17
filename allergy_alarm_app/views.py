@@ -44,21 +44,8 @@ def chart_view(request, sensorType, timeRange):
             })
 
 def chart_data(request, sensorType, timeRange):
-    #Called by chart.html, gives it the proper data. sensorType is a string specified by buttons.
+    #Called by chart.html, gives it the proper data. sensorType and timeRange are strings specified by buttons upon clicking.
     present = datetime.now()
-    # if (timeRange == "hour"): 
-    #     start = present-timedelta(hours=1)
-    #     xTimeScale = "minutes"
-    # elif (timeRange == "day"): 
-    #     start = present-timedelta(days=1)
-    #     xTimeScale = "hours"
-    # elif (timeRange == "week"): 
-    #     start = present-timedelta(weeks=1)
-    #     xTimeScale = "days"
-    # elif (timeRange == "month"): 
-    #     start = present-timedelta(weeks=4)
-    #     xTimeScale = 
-    # elif (timeRange == "year"): start = present-timedelta(weeks=52)
 
     #To edit time-specific plotting settings, change values inside this dictionary
     timeDict ={
@@ -110,14 +97,12 @@ def chart_data(request, sensorType, timeRange):
 
     sensorData = sensorDict[sensorType]
     data = sensorData["table"].objects.filter(datetime__gte=start).order_by('datetime') #__gte= is syntax for greater than or equal to for django table queries
-    values = [[point.datetime, getattr(point, sensorData["plotColumn"])] for point in data] #getattr takes in a column's name and returns that column
+    values = [[point.datetime, getattr(point, sensorData["plotColumn"])] for point in data] #getattr() takes in a column's name and returns that column
     fillColor = sensorData["fillColor"]
     lineColor = sensorData["lineColor"]
 
     #Outputs to chart.html's javascript plotting function
-    #labels = [point.datetime.strftime("%B %d, %I:%M%p") for point in data] #if point.user_id == user
     return JsonResponse(data={
-        #'labels': labels,
         'values': values,
         'ylabel': sensorType,
         'fillColor': fillColor,
