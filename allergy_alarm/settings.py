@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -23,21 +23,29 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-oncovbba7anbcr)uq17p%8efri^)j2cv)&sk1!b(*xbhckqfi)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '3.17.209.213', '.allergyhealthhelper.com']
+
+#This will implement HSTS Security, preventing MITM attacks
+SECURE_HSTS_SECONDS = 30  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!* SET TO A HIGH VALUE FOR DEPLOYMENT
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+SESSION_COOKIE_SECURE           = True
+CSRF_COOKIE_SECURE              = True
 
 #Bug Testing/Fixing
-CORS_REPLACE_HTTPS_REFERER      = False
-HOST_SCHEME                     = "http://"
-SECURE_PROXY_SSL_HEADER         = None
-SECURE_SSL_REDIRECT             = False
-SESSION_COOKIE_SECURE           = False
-CSRF_COOKIE_SECURE              = False
-SECURE_HSTS_SECONDS             = None
-SECURE_HSTS_INCLUDE_SUBDOMAINS  = False
-SECURE_FRAME_DENY               = False
-
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '3.17.209.213']
-
+# CORS_REPLACE_HTTPS_REFERER      = False
+# HOST_SCHEME                     = "http://"
+# SECURE_PROXY_SSL_HEADER         = None
+# SECURE_SSL_REDIRECT             = False
+# SESSION_COOKIE_SECURE           = False
+# CSRF_COOKIE_SECURE              = False
+# SECURE_HSTS_SECONDS             = None
+# SECURE_HSTS_INCLUDE_SUBDOMAINS  = False
+# SECURE_FRAME_DENY               = False
 
 # Application definition
 
@@ -126,8 +134,8 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
-STATIC_ROOT = "static/"
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [BASE_DIR / "allergy_alarm_app/static"] 
 
 # Default primary key field type
