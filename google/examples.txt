@@ -1,0 +1,45 @@
+Google's stock example for making an API call to google maps platform:
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY">
+</script>
+
+Here's an oddly complicated Maps JavaScript request:
+<script>
+  (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+    key: "YOUR_API_KEY",
+    v: "weekly",
+    // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+    // Add other bootstrap parameters as needed, using camel case.
+  });
+</script>
+
+Curl command to specifically use the pollen API, with various parameters
+curl -X GET "https://pollen.googleapis.com/v1/forecast:lookup?key=YOUR_API_KEY
+&location.longitude=35.32&location.latitude=32.32&days=1
+&plantsDescription=false"
+
+Request a day's information with forecast endpoint:
+https://pollen.googleapis.com/v1/forecast:lookup?key=YOUR_API_KEY
+
+Knoxville Latitude and Longitude:
+35.964668, -83.926453
+
+It is sometimes beneficial to retry requests if something goes wrong. They recommend using
+"exponential backoff" if you do. Honestly, I probably just won't. We have a quota.
+
+Generally, you will want to parse responses from the web service and extract only those values which interest you.
+
+The parsing scheme you use depends on whether you are returning output in JSON. JSON responses, being already in 
+the form of Javascript objects, may be processed within Javascript itself on the client.
+
+In powershell, curl is actually an alias to something else, and not the expected curl command. Need to use curl.exe 
+
+Picture 
+
+Correct powershell usage: 
+
+curl.exe -X GET "https://pollen.googleapis.com/v1/forecast:lookup?key=AIzaSyC6M6ahc6cWLvhY5amoLAqGSdmXU24FtGI&location.longitude=35.32&location.latitude=32.32&days=1&plantsDescription=false" 
+
+CANNOT split across multiple lines (which is actually how they show it in their example) 
+
+In linux server, probably different command. (I assume no .exe) 
