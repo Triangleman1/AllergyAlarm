@@ -12,11 +12,22 @@ class UserExtension(models.Model):
     def __str__(self):
         return f"{self.user.username}"
     
-# Turns out this was done automatically - still a good snippet to save
-#  @receiver(post_save, sender=User)
-# def extend_user(sender, instance, **kwargs):
-#     u = UserExtension(user = instance, test = "test1") 
-#     u.save()
+#This creates User_Extension
+@receiver(post_save, sender=User)
+def extend_user(sender, instance, created, **kwargs):
+    if created:
+        u = UserExtension.objects.create(user = instance, test = "test1") 
+        u.save()
+
+class Pollen(models.Model):
+    date = models.DateField()
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    pollen_type = models.TextField()
+    pollen_index = models.IntegerField()
+
+    def __str__(self):
+        return f"On {self.date} Lat: {self.latitude} Long: {self.longitude}"
 
 class Temperature(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -40,6 +51,7 @@ class Accelerometer(models.Model):
     x = models.FloatField()
     y = models.FloatField()
     z = models.FloatField()
+    magnitude = models.FloatField()
 
     def __str__(self):
         return f"At {self.datetime} {self.user} recorded acceleration x: {self.x}, y:{self.y}, z:{self.z}"
@@ -50,6 +62,7 @@ class Gyroscope(models.Model):
     x = models.FloatField()
     y = models.FloatField()
     z = models.FloatField()
+    magnitude = models.FloatField()
 
     def __str__(self):
         return f"At {self.datetime} {self.user} recorded rotational acceleration x: {self.x}, y:{self.y}, z:{self.z}"

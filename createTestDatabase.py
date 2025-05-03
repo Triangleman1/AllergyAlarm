@@ -8,9 +8,6 @@ from django.utils import timezone
 import random
 import numpy as np
 
-#Clear database
-User.objects.all().delete()
-
 #Create superuser (not important for test, just good to have)
 User.objects.create_superuser('username', 'fakeemail@gmail.com', 'allergyalarm')
 
@@ -66,7 +63,7 @@ print(Temperature.objects.all())
 for i in range(100):
     randomTime = rounded_time-timedelta(seconds=random.randrange(SECONDS_IN_A_DAY))
     randomAcc = np.random.uniform(0, 1-(100-i)/200)
-    t = Accelerometer(user = user1, datetime = randomTime , x = randomAcc, y = 0, z = 0)
+    t = Accelerometer(user = user1, datetime = randomTime , x = 0, y = 0, z = 0, magnitude = randomAcc)
     t.save()
 # aa = Accelerometer(user = user1, datetime = rounded_time-timedelta(days=5), x = .5) #Week test
 # aa.save()
@@ -74,31 +71,32 @@ for i in range(100):
 # ab.save()
 # ac = Accelerometer(user = user1, datetime = rounded_time-timedelta(weeks=48), x = 1) #Year test
 # ac.save()
-print(Temperature.objects.all())
+print(Accelerometer.objects.all())
 
 #Gyroscope - Spread out across time scales, kinda logarithmically.
 for i in range(100):
     randomTime = rounded_time-timedelta(seconds=random.randrange(SECONDS_IN_AN_HOUR))
     randomRot = np.random.uniform(0, 1-(100-i)/200)
-    t = Gyroscope(user = user1, datetime = randomTime , x = randomRot, y = 0, z = 0)
+    t = Gyroscope(user = user1, datetime = randomTime , x = 0, y = 0, z = 0, magnitude = randomRot)
     t.save()
 for i in range(100):
     randomTime = rounded_time-timedelta(seconds=random.randrange(SECONDS_IN_A_DAY))
     randomRot = np.random.uniform(0, 1-(100-i)/200)
-    t = Gyroscope(user = user1, datetime = randomTime , x = randomRot, y = 0, z = 0)
+    t = Gyroscope(user = user1, datetime = randomTime , x = 0, y = 0, z = 0, magnitude = randomRot)
     t.save()
 for i in range(100):
     randomTime = rounded_time-timedelta(seconds=random.randrange(SECONDS_IN_A_WEEK))
     randomRot = np.random.uniform(0, 1-(100-i)/200)
-    t = Gyroscope(user = user1, datetime = randomTime , x = randomRot, y = 0, z = 0)
+    t = Gyroscope(user = user1, datetime = randomTime , x = 0, y = 0, z = 0, magnitude = randomRot)
     t.save()
 for i in range(100):
     randomTime = rounded_time-timedelta(seconds=random.randrange(SECONDS_IN_A_MONTH))
     randomRot = np.random.uniform(0, 1-(100-i)/200)
-    t = Gyroscope(user = user1, datetime = randomTime , x = randomRot, y = 0, z = 0)
+    t = Gyroscope(user = user1, datetime = randomTime , x = 0, y = 0, z = 0, magnitude = randomRot)
     t.save()
 for i in range(100):
     randomTime = rounded_time-timedelta(seconds=random.randrange(SECONDS_IN_A_YEAR))
     randomRot = np.random.uniform(0, 1-(100-i)/200)
-    t = Gyroscope(user = user1, datetime = randomTime , x = randomRot, y = 0, z = 0)
+    t = Gyroscope(user = user1, datetime = randomTime , x = 0, y = 0, z = 0, magnitude = randomRot)
     t.save()
+print(Gyroscope.objects.all())
