@@ -15,9 +15,9 @@ User.objects.all().delete()
 User.objects.create_superuser('username', 'fakeemail@gmail.com', 'allergyalarm')
 
 #Create 2 users
-user1 = User.objects.create_user(username='user1', password='password')
+user1 = User.objects.create_user(username='user1', password='allergyalarm')
 user1.save()
-user2 = User.objects.create_user(username='user2', password='password')
+user2 = User.objects.create_user(username='user2', password='allergyalarm')
 user2.save()
 print(User.objects.all())
 
