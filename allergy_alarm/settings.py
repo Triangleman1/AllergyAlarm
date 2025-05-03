@@ -17,13 +17,17 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '3.17.209.213', '.allergyhealthhelper
 # LOCAL
 SECRET_KEY = 'django-insecure-oncovbba7anbcr)uq17p%8efri^)j2cv)&sk1!b(*xbhckqfi)'
 # SERVER
+#try:
+#    SECRET_KEY = os.environ["SECRET_KEY"]
+#except KeyError as e:
+#    raise RuntimeError("Could not find a SECRET_KEY in environment") from e
 
 # LOCAL
 DEBUG = True
 # SERVER
 #Debug = False
 
-#IMPORTANT!!! UNCOMMENT THESE ON SERVER
+#SERVER
 # #This will implement HSTS Security, preventing MITM attacks
 # SECURE_HSTS_SECONDS = 30  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!* SET TO A HIGH VALUE FOR DEPLOYMENT
 # SECURE_HSTS_PRELOAD = True
@@ -32,7 +36,7 @@ DEBUG = True
 
 # SESSION_COOKIE_SECURE           = True
 # CSRF_COOKIE_SECURE              = True
-#END OF COMMENT
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
