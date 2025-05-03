@@ -28,14 +28,14 @@ DEBUG = True
 #Debug = False
 
 #SERVER
-# #This will implement HSTS Security, preventing MITM attacks
-# SECURE_HSTS_SECONDS = 30  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!* SET TO A HIGH VALUE FOR DEPLOYMENT
-# SECURE_HSTS_PRELOAD = True
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+#This will implement HSTS Security, preventing MITM attacks
+#SECURE_HSTS_SECONDS = 2,592,000  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!* SET TO A HIGH VALUE FOR DEPLOYMENT
+#SECURE_HSTS_PRELOAD = True
+#SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+#SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-# SESSION_COOKIE_SECURE           = True
-# CSRF_COOKIE_SECURE              = True
+#SESSION_COOKIE_SECURE           = True
+#CSRF_COOKIE_SECURE              = True
 
 
 # Static files (CSS, JavaScript, Images)
