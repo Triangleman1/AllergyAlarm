@@ -7,7 +7,7 @@ from django.dispatch import receiver
 #user.extension should refer to this table
 class UserExtension(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='extension')
-    test = models.TextField(default="Default text")
+    averageHeartRate = models.FloatField(default="0")
 
     def __str__(self):
         return f"{self.user.username}"
@@ -16,7 +16,7 @@ class UserExtension(models.Model):
 @receiver(post_save, sender=User)
 def extend_user(sender, instance, created, **kwargs):
     if created:
-        u = UserExtension.objects.create(user = instance, test = "test1") 
+        u = UserExtension.objects.create(user = instance, averageHeartRate=0) 
         u.save()
 
 class Pollen(models.Model):

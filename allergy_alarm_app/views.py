@@ -4,13 +4,31 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from .models import *
 from datetime import datetime, timedelta
+import numpy as np
 
 # Create your views here.
 def home(request):
     #Comment out to not have to deal with logging in
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
-    return render(request, "allergy_alarm_app/allergy_home.html")
+    
+    #Update User Info
+    # heartData = HeartRate.objects.filter(user=request.user)
+    # userData = UserExtension.objects.filter(user=request.user)
+    # heartRates = [getattr(point, "ECG") for point in heartData]
+    # np.mean(heartRates)
+
+    #Check for warnings
+    heartData = HeartRate.objects.filter(user=request.user)
+    heartRates = [getattr(point, "ECG") for point in heartData]
+    if np.mean(heartRates) > 150:
+        warning = "Abnormally high heart rate detected"
+    else:
+        warning = ""
+
+    return render(request, "allergy_alarm_app/allergy_home.html", {
+                "warning": warning
+            })
 
 def dashboard(request):
     if not request.user.is_authenticated:

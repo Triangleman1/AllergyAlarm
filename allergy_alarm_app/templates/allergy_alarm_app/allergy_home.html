@@ -55,11 +55,13 @@
     </div>
   </div>
 
-  <div class="alert alert-dismissible alert-warning">
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    <h4 class="alert-heading">Warning!</h4>
-    <p class="mb-0">Warning! <a href="#" class="alert-link">link_to_concern</a>.</p>
-  </div>
+  {% if warning %}
+    <div class="alert alert-dismissible alert-warning">
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      <h4 class="alert-heading">Warning!</h4>
+      <p class="mb-0">{{ warning }}<a href="#" class="alert-link"></a>.</p> 
+    </div>
+  {% endif %}
 
 <button type="button" class="btn btn-primary" onclick="location.href='{% url "chart" sensorType="Heart Rate" timeRange="day" %}'">Heart Rate</button>
 
