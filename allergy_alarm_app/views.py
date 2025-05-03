@@ -78,21 +78,25 @@ def chart_data(request, sensorType, timeRange):
                              "plotColumn": "temperature",
                              "fillColor": 'rgb(227, 113, 37, 0.2)',
                              "lineColor": 'rgb(227, 113, 37, 1)',
+                             "units": "(°C)",
                              },
         "Heart Rate":       {"table": HeartRate, 
                              "plotColumn": "ECG",
                              "fillColor": 'rgb(213, 18, 18, 0.2)',
                              "lineColor": 'rgb(213, 18, 18, 1)',
+                             "units": "(BPM)",
                              },
         "Accelerometer":    {"table": Accelerometer, 
                              "plotColumn": "x",
                              "fillColor": 'rgba(75, 192, 192, 0.2)',
                              "lineColor": 'rgba(75, 192, 192, 1)',
+                             "units": "",
                              },
         "Gyroscope":        {"table": Gyroscope, 
                              "plotColumn": "x",
                              "fillColor": 'rgb(113, 14, 193, 0.2)',
                              "lineColor": 'rgb(113, 14, 193, 1)',
+                             "units": "",
                              },
     }
 
@@ -103,18 +107,22 @@ def chart_data(request, sensorType, timeRange):
 
     sensorData = sensorDict[sensorType]
     data = sensorData["table"].objects.filter(datetime__gte=start).filter(user=request.user).order_by('datetime') #__gte= is syntax for greater than or equal to for django table queries
+    while (len(data) > 1000):
+        data = data[::2]
     values = [[point.datetime, getattr(point, sensorData["plotColumn"])] for point in data] #getattr() takes in a column's name and returns that column
     fillColor = sensorData["fillColor"]
     lineColor = sensorData["lineColor"]
-
+    units = sensorData["units"]
+    
     #print(request.user.username)
     #print(sensorData["table"].user.username)
 
     #Outputs to chart.html's javascript plotting function
     return JsonResponse(data={
         'values': values,
-        'ylabel': sensorType,
+        'ylabel': sensorType+" "+units,
         'fillColor': fillColor,
         'lineColor': lineColor,
         'xTimeScale': xTimeScale,
+        'xTimeStart': start,
     })

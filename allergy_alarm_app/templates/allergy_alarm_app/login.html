@@ -4,19 +4,43 @@
 <html>
 <head>
     <title> Allergy Alarm Login </title>
-    <link href="static/allergy_alarm_app/css/allergy_styles.css" rel="stylesheet">
+    <link href="{% static 'allergy_alarm_app/css/allergy_styles.css' %}" rel="stylesheet">
+    <link href="{% static 'allergy_alarm_app/css/bootstrap.min.css' %}" rel="stylesheet" >
+    <link href="{% static 'allergy_alarm_app/css/main.css' %}" rel="stylesheet" >
 </head>
 <body>
+    <h1>Allergy Health Helper</h1>
+
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="">Login</a> 
+        </div>
+    </nav>
     {% if message %}
         <div>{{ message }}</div>
     {% endif %}
 
     <form action="{% url 'login' %}" method="post">
         {% csrf_token %}
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" class="form-control"name="password" placeholder="Password">
-        <input type="submit" value="Login">
+        <fieldset>
+          <div>
+            <label for="exampleInputEmail1" class="form-label mt-4">Username</label>
+            <input type="text" class="form-control" name="username" aria-describedby="emailHelp" placeholder="Enter username">
+          </div>
+          <div>
+            <label for="exampleInputPassword1" class="form-label mt-4">Password</label>
+            <input type="password" class="form-control" name="password" placeholder="Password" autocomplete="off">
+          </div>
+          <button type="submit" value="Login" class="btn btn-primary">Submit</button>
+        </fieldset>
     </form>
+
+    {% comment %} <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" class="form-control" name="password" placeholder="Password">
+        <input type="submit" value="Login">
+    </form> {% endcomment %}
 
 </body>
 </html>
